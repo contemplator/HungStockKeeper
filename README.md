@@ -54,4 +54,35 @@ HungStockKeeper/
 
 ---
 
+## 啟動方式說明
+
+### 前端（Angular）
+
+1. **Node.js 版本需求**：請使用 Node.js v22 以上
+2. 安裝依賴：
+   ```sh
+   cd frontend
+   npm install
+   ```
+3. 啟動開發伺服器：
+   ```sh
+   npm start
+   # 或
+   ng serve
+   ```
+
+### 後端（Go）
+
+1. 安裝依賴：
+   ```sh
+   cd backend
+   go mod tidy
+   ```
+2. 啟動伺服器：
+   ```sh
+   go run main.go
+   ```
+
+---
+
 歡迎一起貢獻與討論！
