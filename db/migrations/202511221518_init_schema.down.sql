@@ -1,0 +1,4 @@
+DROP TABLE IF EXISTS watchlist;
+DROP TABLE IF EXISTS holdings;
+DROP TABLE IF EXISTS brokerages;
+DROP TABLE IF EXISTS users;
