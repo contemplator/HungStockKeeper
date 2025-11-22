@@ -1,0 +1,58 @@
+<div class="flex justify-center items-center min-h-screen bg-gray-100 p-4">
+  <p-toast></p-toast>
+  <p-card header="Login" class="w-full max-w-md shadow-lg">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-6">
+      <div class="flex flex-col gap-2">
+        <label for="email" class="font-bold text-gray-700">Email</label>
+        <input
+          pInputText
+          id="email"
+          formControlName="email"
+          placeholder="Enter your email"
+          class="w-full"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              loginForm.get('email')?.invalid && loginForm.get('email')?.touched
+          }"
+        />
+        <small
+          *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+          class="text-red-500 mt-1"
+        >
+          Valid email is required.
+        </small>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label for="password" class="font-bold text-gray-700">Password</label>
+        <p-password
+          id="password"
+          formControlName="password"
+          [feedback]="false"
+          placeholder="Enter your password"
+          [inputStyle]="{ width: '100%' }"
+          [toggleMask]="true"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              loginForm.get('password')?.invalid && loginForm.get('password')?.touched
+          }"
+        ></p-password>
+        <small
+          *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+          class="text-red-500 mt-1"
+        >
+          Password is required.
+        </small>
+      </div>
+
+      <p-button label="Login" type="submit" [loading]="loading" styleClass="w-full"></p-button>
+
+      <div class="text-center mt-4">
+        <span class="text-gray-600">Don't have an account? </span>
+        <a routerLink="/register" class="text-blue-500 font-bold no-underline hover:underline"
+          >Register</a
+        >
+      </div>
+    </form>
+  </p-card>
+</div>
