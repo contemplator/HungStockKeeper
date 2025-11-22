@@ -5,6 +5,7 @@ import { MainLayout } from './layout/main-layout/main-layout';
 import { Dashboard } from './pages/dashboard/dashboard';
 import { Holdings } from './pages/holdings/holdings';
 import { Watchlist } from './pages/watchlist/watchlist';
+import { authGuard } from './guards/auth-guard';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -12,6 +13,7 @@ export const routes: Routes = [
     {
         path: 'app',
         component: MainLayout,
+        canActivate: [authGuard],
         children: [
             { path: 'dashboard', component: Dashboard },
             { path: 'holdings', component: Holdings },

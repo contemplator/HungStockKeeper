@@ -2,11 +2,26 @@
   
   <!-- Top Header (Fixed Height) -->
   <header class="h-16 bg-white shadow-sm flex items-center justify-between px-4 z-10">
+    <!-- Left: Logo and Title -->
     <div class="flex items-center gap-2">
-      <i class="pi pi-user text-xl text-gray-600"></i>
-      <span class="font-bold text-gray-800">User Name</span>
+      <i class="pi pi-chart-line text-2xl text-blue-600"></i>
+      <span class="font-bold text-lg text-gray-800">Hung Stock Keeper</span>
     </div>
-    <button pButton icon="pi pi-sign-out" class="p-button-text p-button-rounded p-button-danger" (click)="logout()"></button>
+
+    <!-- Right: User Icon with Overlay Panel -->
+    <div>
+      <button pButton icon="pi pi-user" class="p-button-rounded p-button-text p-button-secondary" (click)="op.toggle($event)"></button>
+      
+      <p-popover #op>
+        <div class="flex flex-col gap-3 min-w-[200px]">
+          <div class="flex flex-col gap-1 border-b pb-2">
+            <span class="text-sm text-gray-500">Signed in as</span>
+            <span class="font-bold text-gray-800 truncate">{{ userEmail }}</span>
+          </div>
+          <button pButton label="Logout" icon="pi pi-sign-out" class="p-button-danger p-button-text w-full text-left" (click)="logout()"></button>
+        </div>
+      </p-popover>
+    </div>
   </header>
 
   <!-- Middle Content (Dynamic Height, Scrollable) -->
