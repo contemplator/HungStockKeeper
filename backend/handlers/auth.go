@@ -2,10 +2,13 @@ package handlers
 
 import (
 	"net/http"
+	"os"
+	"time"
 
 	"github.com/contemplator/HungStockKeeper/backend/database"
 	"github.com/contemplator/HungStockKeeper/backend/models"
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
@@ -69,6 +72,48 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	// In a real application, you would generate a JWT token here.
-	c.JSON(http.StatusOK, gin.H{"message": "Login successful", "user_id": user.ID})
+	// Generate JWT
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"sub": user.ID,
+		"exp": time.Now().Add(time.Hour * 24).Unix(), // 1 day expiration
+	})
+
+	// Get secret from env
+	jwtSecret := os.Getenv("JWT_SECRET")
+	if jwtSecret == "" {
+		jwtSecret = "your-secret-key" // Fallback for dev
+	}
+
+	tokenString, err := token.SignedString([]byte(jwtSecret))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
+		return
+	}
+
+	// Set JWT in HttpOnly Cookie
+	// Name, Value, MaxAge, Path, Domain, Secure, HttpOnly
+	// Note: Set Secure to true in production with HTTPS
+	c.SetCookie("Authorization", tokenString, 3600*24*7, "/", "", false, true)
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Login successful",
+		"user":    user,
+	})
+}
+
+func GetProfile(c *gin.Context) {
+	user, exists := c.Get("user")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"user": user,
+	})
+}
+
+func Logout(c *gin.Context) {
+	c.SetCookie("Authorization", "", -1, "/", "", false, true)
+	c.JSON(http.StatusOK, gin.H{"message": "Logged out successfully"})
 }

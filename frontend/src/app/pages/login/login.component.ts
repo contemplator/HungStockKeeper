@@ -50,9 +50,13 @@ export class LoginComponent {
         next: (response) => {
           this.loading = false;
           this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Login successful' });
-          // Store token if needed, then navigate
-          // localStorage.setItem('token', response.token); 
-          // this.router.navigate(['/dashboard']);
+          
+          // Store user info (not token) for display
+          if (response.user) {
+            localStorage.setItem('user', JSON.stringify(response.user));
+          }
+          
+          this.router.navigate(['/app/dashboard']);
         },
         error: (error) => {
           this.loading = false;

@@ -5,6 +5,7 @@ import (
 
 	"github.com/contemplator/HungStockKeeper/backend/database"
 	"github.com/contemplator/HungStockKeeper/backend/handlers"
+	"github.com/contemplator/HungStockKeeper/backend/middleware"
 	"github.com/gin-gonic/gin"
 )
 
@@ -17,13 +18,21 @@ func main() {
 
 	r.GET("/status", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
-			"status": "ok",
+			"status":  "ok",
 			"version": serverVersion,
 		})
 	})
 
 	r.POST("/register", handlers.Register)
 	r.POST("/login", handlers.Login)
+	r.POST("/logout", handlers.Logout)
+
+	// Protected routes
+	authorized := r.Group("/api")
+	authorized.Use(middleware.RequireAuth)
+	{
+		authorized.GET("/me", handlers.GetProfile)
+	}
 
 	r.Run(":8090") // listen and serve on 0.0.0.0:8090
 }
