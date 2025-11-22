@@ -28,10 +28,17 @@ func main() {
 	r.POST("/logout", handlers.Logout)
 
 	// Protected routes
-	authorized := r.Group("/api")
+	authorized := r.Group("/")
 	authorized.Use(middleware.RequireAuth)
 	{
 		authorized.GET("/me", handlers.GetProfile)
+
+		// Holdings routes
+		authorized.POST("/holdings", handlers.CreateHolding)
+		authorized.GET("/holdings", handlers.GetHoldings)
+		authorized.GET("/holdings/:id", handlers.GetHolding)
+		authorized.PUT("/holdings/:id", handlers.UpdateHolding)
+		authorized.DELETE("/holdings/:id", handlers.DeleteHolding)
 	}
 
 	r.Run(":8090") // listen and serve on 0.0.0.0:8090

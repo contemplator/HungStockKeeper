@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet, NavigationEnd } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { PopoverModule } from 'primeng/popover';
 import { AuthService } from '../../services/auth.service';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-main-layout',
@@ -14,8 +15,15 @@ import { AuthService } from '../../services/auth.service';
 })
 export class MainLayout implements OnInit {
   userEmail: string = '';
+  pageTitle: string = 'Hung Stock Keeper';
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(private router: Router, private authService: AuthService) {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: any) => {
+      this.updateTitle(event.url);
+    });
+  }
 
   ngOnInit() {
     const userStr = localStorage.getItem('user');
@@ -26,6 +34,19 @@ export class MainLayout implements OnInit {
       } catch (e) {
         console.error('Error parsing user data', e);
       }
+    }
+    this.updateTitle(this.router.url);
+  }
+
+  updateTitle(url: string) {
+    if (url.includes('/app/holdings')) {
+      this.pageTitle = '庫存管理';
+    } else if (url.includes('/app/dashboard')) {
+      this.pageTitle = 'Dashboard';
+    } else if (url.includes('/app/watchlist')) {
+      this.pageTitle = 'Watchlist';
+    } else {
+      this.pageTitle = 'Hung Stock Keeper';
     }
   }
 

@@ -1,1 +1,79 @@
-<p>holdings works!</p>
+<div class="p-4">
+  <p-toast></p-toast>
+  <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+  
+  <!-- Header Section -->
+  <div class="mb-4">
+    <h2 class="text-xl font-bold text-gray-800">追蹤您的股票庫存與買入細節</h2>
+    <p class="text-sm text-gray-500">Manage your portfolio efficiently</p>
+  </div>
+
+  <!-- Toolbar -->
+  <div class="mb-4">
+    <p-button label="新增庫存" icon="pi pi-plus" (click)="openNew()" styleClass="p-button-success"></p-button>
+  </div>
+
+  <!-- Data Table -->
+  <p-table [value]="holdings" [loading]="loading" responsiveLayout="stack" [breakpoint]="'960px'" styleClass="p-datatable-sm shadow-md rounded-lg overflow-hidden">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Symbol</th>
+        <th>Quantity</th>
+        <th>Cost Basis</th>
+        <th>Purchase Date</th>
+        <th>Note</th>
+        <th>Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-holding>
+      <tr>
+        <td><span class="p-column-title font-bold">Symbol</span>{{ holding.symbol }}</td>
+        <td><span class="p-column-title font-bold">Quantity</span>{{ holding.quantity }}</td>
+        <td><span class="p-column-title font-bold">Cost Basis</span>{{ holding.cost_basis | currency }}</td>
+        <td><span class="p-column-title font-bold">Date</span>{{ holding.purchase_date | date:'shortDate' }}</td>
+        <td><span class="p-column-title font-bold">Note</span>{{ holding.note }}</td>
+        <td>
+            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editHolding(holding)"></button>
+            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteHolding(holding)"></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="5" class="text-center p-4">No holdings found.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <!-- Dialog -->
+  <p-dialog [(visible)]="displayDialog" [style]="{width: '450px'}" header="Holding Details" [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content">
+      <div class="field mb-4">
+        <label for="symbol" class="block mb-2 font-bold">Stock Symbol</label>
+        <input type="text" pInputText id="symbol" [(ngModel)]="holding.symbol" required autofocus />
+        <small class="p-error" *ngIf="submitted && !holding.symbol">Symbol is required.</small>
+      </div>
+      <div class="field mb-4">
+        <label for="quantity" class="block mb-2 font-bold">Quantity</label>
+        <p-inputNumber id="quantity" [(ngModel)]="holding.quantity" mode="decimal" [minFractionDigits]="0" [maxFractionDigits]="5"></p-inputNumber>
+      </div>
+      <div class="field mb-4">
+        <label for="cost_basis" class="block mb-2 font-bold">Cost Basis (Price per share)</label>
+        <p-inputNumber id="cost_basis" [(ngModel)]="holding.cost_basis" mode="currency" currency="USD" locale="en-US"></p-inputNumber>
+      </div>
+      <div class="field mb-4">
+        <label for="purchase_date" class="block mb-2 font-bold">Purchase Date</label>
+        <p-datepicker id="purchase_date" [(ngModel)]="holding.purchase_date" dateFormat="yy-mm-dd" appendTo="body"></p-datepicker>
+      </div>
+      <div class="field mb-4">
+        <label for="note" class="block mb-2 font-bold">Note</label>
+        <textarea id="note" pInputTextarea [(ngModel)]="holding.note" rows="3" cols="20"></textarea>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+      <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+      <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveHolding()"></button>
+    </ng-template>
+  </p-dialog>
+</div>
