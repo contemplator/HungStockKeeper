@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
@@ -42,7 +42,8 @@ export class Holdings implements OnInit {
   constructor(
     private holdingsService: HoldingsService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -55,11 +56,13 @@ export class Holdings implements OnInit {
       next: (data) => {
         this.holdings = data;
         this.loading = false;
+        this.cdr.detectChanges(); // Manually trigger change detection
       },
       error: (err) => {
         console.error('Failed to load holdings', err);
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to load holdings' });
         this.loading = false;
+        this.cdr.detectChanges();
       }
     });
   }

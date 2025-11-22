@@ -1,5 +1,5 @@
-<div class="p-4">
-  <p-toast></p-toast>
+<div class="p-0 sm:p-4">
+  <p-toast [breakpoints]="{'920px': {width: '100%', right: '0', left: '0'}}"></p-toast>
   <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
   
   <!-- Header Section -->
@@ -14,7 +14,7 @@
   </div>
 
   <!-- Data Table -->
-  <p-table [value]="holdings" [loading]="loading" responsiveLayout="stack" [breakpoint]="'960px'" styleClass="p-datatable-sm shadow-md rounded-lg overflow-hidden">
+  <p-table [value]="holdings" [loading]="loading" responsiveLayout="stack" [breakpoint]="'960px'" class="p-datatable-sm shadow-md rounded-lg overflow-hidden">
     <ng-template pTemplate="header">
       <tr>
         <th>Symbol</th>
@@ -32,9 +32,9 @@
         <td><span class="p-column-title font-bold">Cost Basis</span>{{ holding.cost_basis | currency }}</td>
         <td><span class="p-column-title font-bold">Date</span>{{ holding.purchase_date | date:'shortDate' }}</td>
         <td><span class="p-column-title font-bold">Note</span>{{ holding.note }}</td>
-        <td>
-            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editHolding(holding)"></button>
-            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteHolding(holding)"></button>
+        <td class="flex !justify-end">
+            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded mr-2" severity="info" (click)="editHolding(holding)"></button>
+            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded" severity="danger" (click)="deleteHolding(holding)"></button>
         </td>
       </tr>
     </ng-template>
