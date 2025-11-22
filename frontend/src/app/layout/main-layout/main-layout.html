@@ -1,0 +1,39 @@
+<div class="flex flex-col h-screen bg-gray-50">
+  
+  <!-- Top Header (Fixed Height) -->
+  <header class="h-16 bg-white shadow-sm flex items-center justify-between px-4 z-10">
+    <div class="flex items-center gap-2">
+      <i class="pi pi-user text-xl text-gray-600"></i>
+      <span class="font-bold text-gray-800">User Name</span>
+    </div>
+    <button pButton icon="pi pi-sign-out" class="p-button-text p-button-rounded p-button-danger" (click)="logout()"></button>
+  </header>
+
+  <!-- Middle Content (Dynamic Height, Scrollable) -->
+  <main class="flex-1 overflow-y-auto p-4 pb-20"> 
+    <router-outlet></router-outlet>
+  </main>
+
+  <!-- Bottom TabBar (Fixed Bottom) -->
+  <nav class="h-16 bg-white border-t border-gray-200 flex justify-around items-center z-10">
+    
+    <!-- Dashboard Tab -->
+    <a routerLink="/app/dashboard" routerLinkActive="text-blue-600" class="flex flex-col items-center text-gray-500 no-underline w-full h-full justify-center hover:bg-gray-50 transition-colors cursor-pointer">
+      <i class="pi pi-home text-xl mb-1"></i>
+      <span class="text-xs font-medium">Dashboard</span>
+    </a>
+
+    <!-- Holdings Tab -->
+    <a routerLink="/app/holdings" routerLinkActive="text-blue-600" class="flex flex-col items-center text-gray-500 no-underline w-full h-full justify-center hover:bg-gray-50 transition-colors cursor-pointer">
+      <i class="pi pi-briefcase text-xl mb-1"></i>
+      <span class="text-xs font-medium">Holdings</span>
+    </a>
+
+    <!-- Watchlist Tab -->
+    <a routerLink="/app/watchlist" routerLinkActive="text-blue-600" class="flex flex-col items-center text-gray-500 no-underline w-full h-full justify-center hover:bg-gray-50 transition-colors cursor-pointer">
+      <i class="pi pi-eye text-xl mb-1"></i>
+      <span class="text-xs font-medium">Watchlist</span>
+    </a>
+
+  </nav>
+</div>
