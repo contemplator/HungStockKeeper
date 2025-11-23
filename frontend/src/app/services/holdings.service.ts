@@ -12,6 +12,10 @@ export interface Holding {
   note?: string;
   CreatedAt?: Date;
   UpdatedAt?: Date;
+  current_price?: number;
+  market_value?: number;
+  profit_loss?: number;
+  profit_loss_percent?: number;
 }
 
 export interface Brokerage {

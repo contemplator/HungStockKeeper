@@ -20,6 +20,10 @@
         <th>Symbol</th>
         <th>Quantity</th>
         <th>Cost Basis</th>
+        <th>Current Price</th>
+        <th>Market Value</th>
+        <th>P/L</th>
+        <th>P/L %</th>
         <th>Purchase Date</th>
         <th>Note</th>
         <th>Actions</th>
@@ -30,6 +34,20 @@
         <td><span class="p-column-title font-bold">Symbol</span>{{ holding.symbol }}</td>
         <td><span class="p-column-title font-bold">Quantity</span>{{ holding.quantity }}</td>
         <td><span class="p-column-title font-bold">Cost Basis</span>{{ holding.cost_basis | currency }}</td>
+        <td><span class="p-column-title font-bold">Current Price</span>{{ holding.current_price | currency }}</td>
+        <td><span class="p-column-title font-bold">Market Value</span>{{ holding.market_value | currency }}</td>
+        <td>
+            <span class="p-column-title font-bold">P/L</span>
+            <span [class.text-green-500]="holding.profit_loss > 0" [class.text-red-500]="holding.profit_loss < 0">
+                {{ holding.profit_loss | currency }}
+            </span>
+        </td>
+        <td>
+            <span class="p-column-title font-bold">P/L %</span>
+            <span [class.text-green-500]="holding.profit_loss_percent > 0" [class.text-red-500]="holding.profit_loss_percent < 0">
+                {{ holding.profit_loss_percent | number:'1.2-2' }}%
+            </span>
+        </td>
         <td><span class="p-column-title font-bold">Date</span>{{ holding.purchase_date | date:'shortDate' }}</td>
         <td><span class="p-column-title font-bold">Note</span>{{ holding.note }}</td>
         <td class="flex !justify-end">
