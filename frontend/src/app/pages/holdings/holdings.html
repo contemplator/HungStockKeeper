@@ -1,5 +1,5 @@
 <div class="p-0 sm:p-4">
-  <p-toast [breakpoints]="{'920px': {width: '100%', right: '0', left: '0'}}"></p-toast>
+<p-toast [style]="{width: '90%', left: '5%', right: '5%'}"></p-toast>
   <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
   
   <!-- Header Section -->
@@ -50,24 +50,28 @@
     <ng-template pTemplate="content">
       <div class="field mb-4">
         <label for="symbol" class="block mb-2 font-bold">Stock Symbol</label>
-        <input type="text" pInputText id="symbol" [(ngModel)]="holding.symbol" required autofocus />
+        <input type="text" pInputText id="symbol" [(ngModel)]="holding.symbol" required autofocus class="w-full" />
         <small class="p-error" *ngIf="submitted && !holding.symbol">Symbol is required.</small>
       </div>
       <div class="field mb-4">
         <label for="quantity" class="block mb-2 font-bold">Quantity</label>
-        <p-inputNumber id="quantity" [(ngModel)]="holding.quantity" mode="decimal" [minFractionDigits]="0" [maxFractionDigits]="5"></p-inputNumber>
+        <p-inputNumber id="quantity" [(ngModel)]="holding.quantity" mode="decimal" [minFractionDigits]="0" [maxFractionDigits]="5" class="w-full"></p-inputNumber>
       </div>
       <div class="field mb-4">
         <label for="cost_basis" class="block mb-2 font-bold">Cost Basis (Price per share)</label>
-        <p-inputNumber id="cost_basis" [(ngModel)]="holding.cost_basis" mode="currency" currency="USD" locale="en-US"></p-inputNumber>
+        <p-inputNumber id="cost_basis" [(ngModel)]="holding.cost_basis" mode="currency" currency="USD" locale="en-US" class="w-full"></p-inputNumber>
       </div>
       <div class="field mb-4">
         <label for="purchase_date" class="block mb-2 font-bold">Purchase Date</label>
-        <p-datepicker id="purchase_date" [(ngModel)]="holding.purchase_date" dateFormat="yy-mm-dd" appendTo="body"></p-datepicker>
+        <p-datepicker id="purchase_date" [(ngModel)]="holding.purchase_date" dateFormat="yy-mm-dd" appendTo="body" class="w-full" [inputStyleClass]="'w-full'"></p-datepicker>
+      </div>
+      <div class="field mb-4">
+        <label for="brokerage" class="block mb-2 font-bold">Brokerage</label>
+        <p-select id="brokerage" [options]="brokerages" [(ngModel)]="holding.brokerage_id" optionLabel="name" optionValue="id" placeholder="Select a Brokerage" appendTo="body" class="w-full"></p-select>
       </div>
       <div class="field mb-4">
         <label for="note" class="block mb-2 font-bold">Note</label>
-        <textarea id="note" pInputTextarea [(ngModel)]="holding.note" rows="3" cols="20"></textarea>
+        <textarea id="note" pTextarea [(ngModel)]="holding.note" rows="3" (autoResize)="true" class="w-full resize-none"></textarea>
       </div>
     </ng-template>
 

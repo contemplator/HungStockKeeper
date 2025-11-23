@@ -35,7 +35,8 @@ func CreateHolding(c *gin.Context) {
 		Quantity:     input.Quantity,
 		CostBasis:    input.CostBasis,
 		PurchaseDate: input.PurchaseDate,
-		// Note:         input.Note,
+		BrokerageId:  input.BrokerageId,
+		Note:         input.Note,
 	}
 
 	if err := database.DB.Create(&holding).Error; err != nil {
@@ -116,7 +117,10 @@ func UpdateHolding(c *gin.Context) {
 	if !input.PurchaseDate.IsZero() {
 		holding.PurchaseDate = input.PurchaseDate
 	}
-	// holding.Note = input.Note
+	if input.BrokerageId != nil {
+		holding.BrokerageId = input.BrokerageId
+	}
+	holding.Note = input.Note
 
 	if err := database.DB.Save(&holding).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update holding"})

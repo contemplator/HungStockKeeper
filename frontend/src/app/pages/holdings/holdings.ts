@@ -5,13 +5,16 @@ import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
-// import { CalendarModule } from 'primeng/calendar'; //-- IGNORE ---
-import { DatePickerModule } from 'primeng/datepicker'; // -- REPLACE CalendarModule WITH DatePickerModule ---
+// import { CalendarModule } from 'primeng/calendar';
+import { DatePickerModule } from 'primeng/datepicker'; // -- Replace CalendarModule with DatePickerModule ---
+// import { DropdownModule } from 'primeng/dropdown';
+import { SelectModule } from 'primeng/select'; // Repalce DropdownModule with SelectModule
 import { FormsModule } from '@angular/forms';
-import { HoldingsService, Holding } from '../../services/holdings.service';
+import { HoldingsService, Holding, Brokerage } from '../../services/holdings.service';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { TextareaModule } from 'primeng/textarea';
 
 @Component({
   selector: 'app-holdings',
@@ -24,9 +27,11 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     InputTextModule,
     InputNumberModule,
     DatePickerModule,
+    SelectModule,
     FormsModule,
     ToastModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    TextareaModule
   ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './holdings.html',
@@ -34,6 +39,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 })
 export class Holdings implements OnInit {
   holdings: Holding[] = [];
+  brokerages: Brokerage[] = [];
   loading: boolean = true;
   displayDialog: boolean = false;
   holding: Holding = this.createEmptyHolding();
@@ -48,6 +54,18 @@ export class Holdings implements OnInit {
 
   ngOnInit() {
     this.loadHoldings();
+    this.loadBrokerages();
+  }
+
+  loadBrokerages() {
+    this.holdingsService.getBrokerages().subscribe({
+      next: (data) => {
+        this.brokerages = data;
+      },
+      error: (err) => {
+        console.error('Failed to load brokerages', err);
+      }
+    });
   }
 
   loadHoldings() {

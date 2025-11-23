@@ -1,0 +1,1 @@
+ALTER TABLE holdings DROP COLUMN IF EXISTS note;

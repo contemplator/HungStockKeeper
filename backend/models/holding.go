@@ -16,6 +16,7 @@ type Holding struct {
 	CostBasis    float64   `json:"cost_basis" gorm:"not null;column:buy_price"`
 	Quantity     float64   `json:"quantity" gorm:"not null;column:quantity"`
 	BrokerageId  *int64    `json:"brokerage_id" gorm:"column:brokerage_id"`
+	Note         string    `json:"note" gorm:"size:50"`
 }
 
 type CreateHoldingInput struct {
@@ -24,7 +25,8 @@ type CreateHoldingInput struct {
 	Quantity     float64   `json:"quantity" binding:"required,gt=0"`
 	CostBasis    float64   `json:"cost_basis" binding:"required,gt=0"`
 	PurchaseDate time.Time `json:"purchase_date"`
-	Note         string    `json:"note"`
+	BrokerageId  *int64    `json:"brokerage_id"`
+	Note         string    `json:"note" binding:"max=50"`
 }
 
 type UpdateHoldingInput struct {
@@ -32,5 +34,6 @@ type UpdateHoldingInput struct {
 	Quantity     float64   `json:"quantity"`
 	CostBasis    float64   `json:"cost_basis"`
 	PurchaseDate time.Time `json:"purchase_date"`
-	Note         string    `json:"note"`
+	BrokerageId  *int64    `json:"brokerage_id"`
+	Note         string    `json:"note" binding:"max=50"`
 }

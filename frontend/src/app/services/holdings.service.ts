@@ -8,9 +8,15 @@ export interface Holding {
   quantity: number;
   cost_basis: number;
   purchase_date: Date;
+  brokerage_id?: number;
   note?: string;
   CreatedAt?: Date;
   UpdatedAt?: Date;
+}
+
+export interface Brokerage {
+  id: number;
+  name: string;
 }
 
 @Injectable({
@@ -18,8 +24,13 @@ export interface Holding {
 })
 export class HoldingsService {
   private apiUrl = '/api/holdings';
+  private brokeragesUrl = '/api/brokerages';
 
   constructor(private http: HttpClient) { }
+
+  getBrokerages(): Observable<Brokerage[]> {
+    return this.http.get<Brokerage[]>(this.brokeragesUrl);
+  }
 
   getHoldings(): Observable<Holding[]> {
     return this.http.get<Holding[]>(this.apiUrl);

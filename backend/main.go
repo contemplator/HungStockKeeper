@@ -26,6 +26,7 @@ func main() {
 	r.POST("/register", handlers.Register)
 	r.POST("/login", handlers.Login)
 	r.POST("/logout", handlers.Logout)
+	r.GET("/brokerages", handlers.GetBrokerages)
 
 	// Protected routes
 	authorized := r.Group("/")
