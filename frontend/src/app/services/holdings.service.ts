@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -30,7 +30,10 @@ export class HoldingsService {
   private apiUrl = '/api/holdings';
   private brokeragesUrl = '/api/brokerages';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+    this.apiUrl = isDevMode() ? '/api/holdings' : '/hungStock/api/holdings';
+    this.brokeragesUrl = isDevMode() ? '/api/brokerages' : '/hungStock/api/brokerages';
+  }
 
   getBrokerages(): Observable<Brokerage[]> {
     return this.http.get<Brokerage[]>(this.brokeragesUrl);
